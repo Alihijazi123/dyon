@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الديون والحسابات</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1><i class="fa-solid fa-wallet"></i>  إدارة الديون  </h1>
+        </header>
+
+        <!-- Bento Statistics Grid -->
+        <div class="stats-grid">
+            <div class="card stat-card">
+                <div class="card-icon" style="color: #f43f5e; background: rgba(244,63,94,0.1);"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                <div class="card-info">
+                    <h3>إجمالي الديون اللي علي (المترتبة)</h3>
+                    <p id="totalOwedByMe">$0.00</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="card-icon" style="color: #4ade80; background: rgba(74,222,128,0.1);"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                <div class="card-info">
+                    <h3>إجمالي الديون اللي للناس عندي (المتبقي للدفع)</h3>
+                    <p id="totalRemainingToPay">$0.00</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="card-icon" style="color: #38bdf8; background: rgba(56,189,248,0.1);"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                <div class="card-info">
+                    <h3>الديون اللي مديونها للناس (الناس اللي عليك)</h3>
+                    <p id="totalLentToOthers">$0.00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forms Section -->
+        <div class="dashboard-grid">
+            <!-- Add Debt Form (علي دين) -->
+            <div class="card form-card">
+                <h2><i class="fa-solid fa-circle-plus" style="color: #f43f5e;"></i> تسجيل دين مترتب عليك</h2>
+                <form id="debtOnMeForm">
+                    <div class="input-group">
+                        <label for="creditorName">اسم الدائن (مين داينك)</label>
+                        <input type="text" id="creditorName" placeholder="مثال: أحمد، محل المواد..." required>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="debtTotalAmount">مبلغ الدين الإجمالي ($)</label>
+                            <input type="number" id="debtTotalAmount" step="0.01" placeholder="0.00" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="debtPaidAmount">كم سرت دافع ($)</label>
+                            <input type="number" id="debtPaidAmount" step="0.01" placeholder="0.00" value="0">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="debtInstallments">عدد الدفعات</label>
+                            <input type="number" id="debtInstallments" placeholder="مثال: 3" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="debtDate">تاريخ الاستحقاق</label>
+                            <input type="date" id="debtDate" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit btn-expense">حفظ الدين (علي)</button>
+                </form>
+            </div>
+
+            <!-- Add Lending Form (مدين ناس) -->
+            <div class="card form-card">
+                <h2><i class="fa-solid fa-circle-plus" style="color: #4ade80;"></i> تسجيل شخص مديون لك</h2>
+                <form id="debtToOthersForm">
+                    <div class="input-group">
+                        <label for="debtorName">اسم الشخص (مين مديون لك)</label>
+                        <input type="text" id="debtorName" placeholder="اسم الزبون أو الشخص" required>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="lentAmount">المبلغ المدان ($)</label>
+                            <input type="number" id="lentAmount" step="0.01" placeholder="0.00" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="lentReceivedAmount">كم سرت مقبوض ($)</label>
+                            <input type="number" id="lentReceivedAmount" step="0.01" placeholder="0.00" value="0">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="lentDate">تاريخ التسديد المتوقع</label>
+                        <input type="date" id="lentDate" required>
+                    </div>
+                    <button type="submit" class="btn-submit btn-sales">حفظ الدين (لك)</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tables Section -->
+        <div class="tables-container">
+            <!-- Table 1: Debts On Me -->
+            <div class="card table-card">
+                <div class="table-header">
+                    <h2><i class="fa-solid fa-receipt"></i> الديون المترتبة عليك (التي عليك للناس)</h2>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الدائن</th>
+                                <th>الإجمالي</th>
+                                <th>المدفوع</th>
+                                <th>المتبقي</th>
+                                <th>الدفعات</th>
+                                <th>التاريخ</th>
+                                <th>إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="debtOnMeTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="emptyDebtOnMe" class="empty-state"><p>لا توجد ديون مترتبة عليك.</p></div>
+            </div>
+
+            <!-- Table 2: Debts To Others -->
+            <div class="card table-card" style="margin-top: 25px;">
+                <div class="table-header">
+                    <h2><i class="fa-solid fa-address-book"></i> الديون للناس عندي (التي لك عند الآخرين)</h2>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الشخص</th>
+                                <th>الإجمالي</th>
+                                <th>المقبوض</th>
+                                <th>المتبقي</th>
+                                <th>تاريخ التسديد</th>
+                                <th>إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="debtToOthersTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="emptyDebtToOthers" class="empty-state"><p>لا توجد ديون مسجلة للآخرين.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
