@@ -157,6 +157,16 @@
         </div>
     </div>
 
+    <!-- Backup & Restore Buttons -->
+<div class="card" style="margin-bottom: 25px; text-align: center;">
+    <h3 style="font-size: 15px; margin-bottom: 12px; color: #94a3b8;"><i class="fa-solid fa-cloud-arrow-down"></i> مزامنة ونقل البيانات بين الأجهزة</h3>
+    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <button onclick="exportData()" class="btn-action" style="padding: 10px 15px; font-size: 13px; background: #38bdf8; color: #0f172a;"><i class="fa-solid fa-download"></i> تصدير البيانات (نسخة احتفاظ)</button>
+        <label for="importFile" class="btn-action" style="padding: 10px 15px; font-size: 13px; background: #4ade80; color: #0f172a; cursor: pointer; margin: 0; display: inline-block;"><i class="fa-solid fa-upload"></i> استيراد البيانات (لهاتف تاني)</label>
+        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+    </div>
+</div>
+
     <script src="script.js"></script>
 </body>
 </html>

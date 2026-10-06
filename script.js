@@ -189,3 +189,53 @@ function deleteDebtToOther(index) {
 
 // التشغيل الأولي
 renderAll();
+
+
+
+
+
+
+
+
+// تصدير البيانات إلى ملف JSON
+function exportData() {
+    const data = {
+        debtsOnMe: JSON.parse(localStorage.getItem('debtsOnMe')) || [],
+        debtsToOthers: JSON.parse(localStorage.getItem('debtsToOthers')) || []
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "debts_backup.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+}
+
+// استيراد البيانات من الملف إلى الجهاز الثاني
+function importData(event) {
+    const fileReader = new FileReader();
+    if (event.target.files[0]) {
+        fileReader.readAsText(event.target.files[0], "UTF-8");
+        fileReader.onload = function(e) {
+            try {
+                const parsedData = JSON.parse(e.target.result);
+                if (parsedData.debtsOnMe && parsedData.debtsToOthers) {
+                    localStorage.setItem('debtsOnMe', JSON.stringify(parsedData.debtsOnMe));
+                    localStorage.setItem('debtsToOthers', JSON.stringify(parsedData.debtsToOthers));
+                    
+                    // إعادة تحميل البيانات على الشاشة
+                    debtsOnMe = parsedData.debtsOnMe;
+                    debtsToOthers = parsedData.debtsToOthers;
+                    renderAll();
+                    
+                    alert("تم استيراد ونقل البيانات بنجاح وعرضها فوراً!");
+                } else {
+                    alert("ملف غير صالح.");
+                }
+            } catch (error) {
+                alert("حدث خطأ أثناء قراءة الملف.");
+            }
+        };
+    }
+}
